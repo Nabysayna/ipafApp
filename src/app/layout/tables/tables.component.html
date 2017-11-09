@@ -1,0 +1,170 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'FILIERE'" [icon]="'fa-table'"></app-page-header>
+
+    <h2> {{getCurrentFiliere()}} </h2>
+
+    <div class="card mb-3">
+        <div class="card-block table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th colspan="2" style="font-weight: normal; text-align: center ;">
+                       Année : <select class="form-control input-sm" [(ngModel)]="filtreAnnee" >
+                            <option></option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
+                    </th>
+                    <th colspan="2" style="font-weight: normal; text-align: center ;">
+                        Semestre : <select class="form-control input-sm" [(ngModel)]="filtreSemestre" >
+                            <option></option>
+                            <option>1</option>
+                            <option>2</option>
+                        </select>
+                    </th>
+                    <th colspan="2" style="font-weight: normal; text-align: center ;">
+
+                    <a class="btn btn-success btn-md" (click)="afficherEtudiants()">Afficher</a>
+                    </th>
+                </tr>
+
+
+                <tr>
+                    <th colspan="6" style="font-weight: normal; text-align: center ;">
+                        <h2 *ngIf="hasSelected()&&etudiantInscrits">Liste des étudiants en {{rangAnnee()}} année de {{getCurrentFiliere()}} (Semestre {{filtreSemestre}}).</h2>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Matricule</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Téléphone</th>
+                    <th>Consultation</th>
+                    <!-- <th>Edition</th> -->
+                </tr>
+                </thead>
+                <tbody *ngIf="hasSelected()&&etudiantInscrits">
+                <tr *ngFor="let etudiant of etudiantInscrits">
+                    <th scope="row">{{etudiant.matricule}}</th>
+                    <td>{{etudiant.prenom}}</td>
+                    <td>{{etudiant.nom}}</td>
+                    <td>{{etudiant.telephone}}</td>
+                    <td><a class="btn btn-info" (click)="open(content)">Consulter</a></td>
+                    <!-- <td><a class="btn btn-success">Editer</a></td> -->
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+<!--     <ng-template #content let-c="close" let-d="dismiss" >
+            <div class="modal-header">
+                <h4 class="modal-title"> Relevé de l'étudiant </h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <a class="btn btn-success" style="color : white ;">Valider les informations du relevé</a> <br/><br />
+                <div style="min-width: 32rem">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>Matière</th>
+                            <th>Contrôles</th>
+                            <th>Examen</th>
+                            <th>Moyenne</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let matiere of matieres ; let i = index ;">
+                            <td scope="row">{{matiere.libelle}}</td>
+                            <td>
+                                <tr> 
+                                    <th *ngFor="let noteControle of matiere.controles ; let i = index ; ">Contrôle {{i}}</th> 
+                                </tr>
+                                <tr> 
+                                    <td *ngFor="let noteControle of matiere.controles ; let i = index ; ">{{noteControle}}</td> 
+                                </tr>
+                            </td>
+                            <td>{{matiere.exam}}</td>
+                            <td>{{matiere.moyenne}}</td>
+                            <td><a class="btn btn-info" (click)="setReleveBtnTxt(i)">{{getReleveBtnTxt(i)}}</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+            </div>
+    </ng-template> -->
+
+    <ng-template #content let-c="close" let-d="dismiss">
+         <div class="modal-dialog modal-lg" >
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <h4 class="modal-title"> Relevé de l'étudiant </h4>
+                    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <a class="btn btn-success" style="color : white ;">Valider les informations du relevé</a> <br/><br />
+                    <div style="min-width: 32rem">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>Matière</th>
+                                <th>Contrôles</th>
+                                <th>Examen</th>
+                                <th>Moyenne</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let matiere of matieres ; let k = index ;">
+                                <td scope="row">{{matiere.libelle}}</td>
+                                <td>
+                                    <tr> 
+                                        <th *ngFor="let noteControle of matiere.controles ; let i = index ; ">Contrôle{{ i+1 }}</th> 
+                                    </tr>
+                                    <tr> 
+                                        <td *ngFor="let noteControle of matiere.controles ; let i = index ; ">   <p *ngIf="!isToEdit(k)">{{noteControle}}</p>
+                                        <input *ngIf="isToEdit(k)" class="form-control input-sm" [(ngModel)]="matieres[k].controles[i]">
+                                        </td> 
+                                    </tr>
+                                </td>
+                                <td>
+                                    <p *ngIf="!isToEdit(k)">{{matiere.exam}}</p>
+                                    <input *ngIf="isToEdit(k)" class="form-control input-sm" [(ngModel)]="matieres[k].exam">
+                                </td>
+                                <td>
+                                    <p *ngIf="!isToEdit(k)">{{matiere.moyenne}}</p>
+                                    <input *ngIf="isToEdit(k)" class="form-control input-sm" [(ngModel)]="matieres[k].moyenne">
+                                </td>
+                                <td><a class="btn btn-info" (click)="setReleveBtnTxt(k)">{{getReleveBtnTxt(k)}}</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
+                </div>
+
+              </div>
+
+        </div>          
+     </ng-template> 
+
+</div>
+
+
+
+
+
+

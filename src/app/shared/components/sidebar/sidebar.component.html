@@ -1,0 +1,63 @@
+<nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
+    <ul class="list-group">
+<!--         <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'dashboard' | translate }}
+        </a>
+ -->        <a [routerLink]="['/inscription']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-edit"></i><!-- <i class="fa fa-fw fa-bar-chart-o"></i> -->&nbsp;{{ 'Inscripition' | translate }}
+        </a>
+         <div class="nested-menu">
+<!--             <a class="list-group-item" (click)="addExpandClass('pages')"> -->
+            <a class="list-group-item" >
+                <span><i class="fa fa-fw fa-table"></i>&nbsp;{{ 'Filières' | translate }}</span>
+            </a>
+<!--             <li class="nested" [class.expand]="showMenu === 'pages'"> -->
+            <li class="nested" >
+                <ul class="submenu">
+                    <li id="submenu1">
+                        <a (click)="storeChoosenField('IDE')"><span>{{ 'IDE' | translate }}&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></span></a>
+                    </li>
+                    <li id="submenu2">
+                        <a (click)="storeChoosenField('SFE')" ><span>{{ 'SFE' | translate }}&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></span></a>
+                    </li>
+                    <li id="submenu3">
+                        <a (click)="storeChoosenField('IB')" ><span>{{ 'IB' | translate }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></span></a>
+                    </li>
+                    <li id="submenu4">
+                        <a (click)="storeChoosenField('AIE')" ><span>{{ 'AIE' | translate }}&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></span></a>
+                    </li>
+                    <li id="submenu5">
+                        <a (click)="storeChoosenField('TS')" ><span>{{ 'TS' | translate }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></span></a>
+                    </li>
+                    <li id="submenu6">
+                        <a (click)="storeChoosenField('LB')" ><span>{{ 'LB' | translate }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></span></a>
+                    </li>
+                    <li id="submenu7">
+                        <a (click)="storeChoosenField('DM')" ><span>{{ 'DM' | translate }}&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></span></a>
+                    </li>
+                </ul>
+            </li>
+        </div>
+
+        <a [routerLink]="['/forms']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-edit"></i>&nbsp;{{ 'Enseignants' | translate }}
+        </a>
+        <a [routerLink]="['/bs-element']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-child"></i>&nbsp;{{ 'Moniteurs' | translate }}
+        </a>
+        <a  *ngIf="titre=='Directeur'" [routerLink]="['/grid']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-wrench"></i>&nbsp;{{ 'Administration' | translate }}
+        </a>
+
+
+
+ <!--         <a [routerLink]="['/blank-page']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-file-o"></i>&nbsp;{{ 'blankpage' | translate }}
+        </a>
+        <a class="list-group-item more-themes" href="http://www.strapui.com/" >
+            {{ 'moretheme' | translate }}
+        </a>
+ -->    
+
+    </ul>
+</nav>

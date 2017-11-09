@@ -1,0 +1,150 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Inscription'" [icon]="'fa-bar-chart-o'"></app-page-header>
+
+    <div class="row" id="navdiv">
+        <div class="col-sm-3 col-xs-6"><button (click)="inscrire=true" class="btn btn-primary">Nouvelle Inscription</button>
+        </div>
+        <div class="col-sm-3 col-xs-6"><button (click)="inscrire=false" class="btn btn-primary">Recherche</button>
+        </div>
+    </div>
+
+
+    <div class="card mb-3" *ngIf="!inscrire">
+        <div class="card-header">Etudiants Inscrits</div>
+        <div class="card-block table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th colspan="2">
+                        Rechercher Par :
+                    </th>
+                    <th>
+                        Matricule :
+                        <input class="form-control" [(ngModel)]="filtrematricule"/>
+                    </th>                            
+                    <th>
+                        Filière :
+                        <select class="form-control input-sm" [(ngModel)]="filtrefiliere" >
+                            <option></option>
+                            <option *ngFor="let filiere of filieres">{{filiere}}</option>
+                        </select>
+                    </th>
+                    <th>
+                        Année :
+                        <select class="form-control input-sm" [(ngModel)]="filtreannee" >
+                            <option></option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
+                    </th>
+                    <th>
+                        Sexe :
+                        <select class="form-control input-sm" [(ngModel)]="filtresexe" >
+                            <option></option>
+                            <option>M</option>
+                            <option>F</option>
+                        </select>
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="6" style="font-weight: normal; text-align: center ;">
+                        Etudiants Répondant au(x) critère(s) de recherche.
+                    </th>
+                </tr>
+                <tr>
+                    <th>Matricule</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Filière</th>
+                    <th>Année</th>
+                    <th>Sexe</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let etudiant of etudiantInscrits|filtreinscription:filtrematricule|filtresexe:filtresexe|filtreannee:filtreannee|filtrefiliere:filtrefiliere">
+                    <th scope="row">{{etudiant.matricule}}</th>
+                    <td>{{etudiant.prenom}}</td>
+                    <td>{{etudiant.nom}}</td>
+                    <td>{{etudiant.filiere}}</td>
+                    <td>{{etudiant.annee}}</td>
+                    <td>{{etudiant.sexe}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="">Nouvelle Inscription</div>
+
+    <form (ngSubmit)="inscrireEtudiant()" #registerForm="ngForm">
+	<div class="row" *ngIf="inscrire">
+		<div class="col-sm-4" >
+			<input type="text" [(ngModel)]="this.prenom"   name="prenom" id="prenom" class="form-control" placeholder="Prénom de l'étudiant" required>
+
+			<input type="text" [(ngModel)]="this.nom"   name="nom" id="nom" class="form-control" placeholder="Nom de l'étudiant" required>
+
+            <input type="date" [(ngModel)]="this.dateNaiss"   name="dateNaiss" id="dateNaiss" class="form-control" placeholder="Date de Naissance" required>
+
+            <input type="text" [(ngModel)]="this.lieuNaiss"   name="lieuNaiss" id="lieuNaiss" class="form-control" placeholder="Lieu de Naissance" required>
+
+            <select class="form-control input-sm" [(ngModel)]="sexe" name="sexe" style="margin-bottom: 1rem ;">
+                <option value="M">M</option>
+                <option value="F">F</option>
+            </select>
+
+
+            <input type="text" [(ngModel)]="this.telephone"   name="telephone" id="telephone" class="form-control" placeholder="Numro téléphone étudiant" required>
+
+            <input type="text" [(ngModel)]="this.adresse"   name="adresse" id="adresse" class="form-control" placeholder="Adresse étudiant" required>
+
+	    </div>
+	    <div class="col-sm-4">
+
+            <input type="email" [(ngModel)]="this.email"   name="email" id="email" class="form-control" placeholder="Email étudiant" required>
+
+            <input type="text" [(ngModel)]="this.tuteur"   name="tuteur" id="tuteur" class="form-control" placeholder="Tuteur de l'étudiant" required>
+
+            <input type="text" [(ngModel)]="this.telTuteur"   name="telTuteur" id="telTuteur" class="form-control" placeholder="Téléphone du Tuteur" required>
+
+            <input type="text" [(ngModel)]="this.adrTuteur"   name="adrTuteur" id="adrTuteur" class="form-control" placeholder="Adresse du Tuteur" required>
+
+            <input type="text" [(ngModel)]="this.diplome"   name="diplome" id="diplome" class="form-control" placeholder="Diplôme" required>
+
+            <input type="number" [(ngModel)]="this.anneeDiplome"   name="anneeDiplome" id="anneeDiplome" class="form-control" placeholder="Année du Diplôme" required>
+
+            <input type="text" [(ngModel)]="this.pce"   name="pce" id="pce" class="form-control" placeholder="Prise en Charge Etudes ?" required>
+
+	    </div>
+	    <div class="col-sm-4" >
+
+            <input type="text" [(ngModel)]="this.enChargeEtu"   name="enChargeEtu" id="enChargeEtu" class="form-control" placeholder="Organisme en Charge des Etudes " required>
+
+            <input type="text" [(ngModel)]="this.professionnel"   name="professionnel" id="professionnel" class="form-control" placeholder="Professionnel ? " required>
+
+            <input type="number" [(ngModel)]="this.experience"   name="experience" id="experience" class="form-control" placeholder="Nombre d'année d'experience" required>
+
+            <input type="text" [(ngModel)]="this.filiere"   name="filiere" id="filiere" class="form-control" placeholder="Filiére de l'étudiant" required>
+
+            <input type="number" [(ngModel)]="this.annee"   name="annee" id="annee" class="form-control" placeholder="Année d'étude" required>
+
+            <input type="text" [(ngModel)]="this.connaissInstitut"   name="connaissInstitut" id="connaissInstitut" class="form-control" placeholder="Comment avez-vous connu l'Institut ?" required>
+
+            <input type="text" [(ngModel)]="this.docsFournis"   name="docsFournis" id="docsFournis" class="form-control" placeholder="Documents fournis" required>
+	    </div>
+	  </div>
+
+
+	    <div class="row" style="margin-top: 2rem ;">
+	    <div class="col-sm-offset-4 col-sm-4">
+			<button class="btn btn-success" [disabled]="!registerForm.form.valid" type="button"(click)="validerInscription()">Valider</button>
+				<button type="reset" class="btn btn-danger" [disabled]="!registerForm.form.valid">Annuler</button>
+	    </div>
+	    </div>
+    </form >
+
+
+
+
+</div>
